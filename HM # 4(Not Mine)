@@ -1,0 +1,179 @@
+1. # Задайте натуральное число N. Напишите программу, 
+# которая составит список простых множителей числа N.
+
+def is_prime(N: int):
+      list_det_of_n = []
+      for i in range(2, N+1):
+        if i > 1 and (i % 2 !=0 or i ==2) and (
+                  i % 3 != 0 or i == 3) and N % i == 0:
+                list_det_of_n.appent(i)
+        return list_det_of_n
+   
+   
+  
+print(is_prime(20))
+print(is_prime(30))
+    
+-----------------------------------------
+    
+2. # Задайте последовательность чисел. Напишите программу, которая выведет список неповторяющихся элементов исходной последовательности. Не использовать множества.
+# [1,1,1,1,2,2,2,3,3,3,4] -> [1,2,3,4]
+
+from os import system 
+system("cls")
+
+import random 
+import function as name
+
+def get_list_unique(list_num:list) -> list:
+  list_unique = []
+  for i in list_num:
+    if i in list_unique:
+      continue
+    list unique.append(i)
+  return list_unuqie 
+  
+number = abs(name.get_number('Введите размер списка, это долно быть целое число: '))
+list_number = name.get_list(number)
+print('Исходный списк', list_number)
+list_result = get_list_unique(list_number)
+print('Список неповторяющихся элементов', list_result)
+
+-----------------------------------------
+
+3. # В файле, содержащем фамилии студентов и их оценки, изменить на прописные буквы фамилии тех студентов, которые имеют средний балл более «4».
+
+ef open_and_read(file):
+    f = open(file, 'r', encoding='utf_8')
+    list_student = []
+    for line in f:
+        list_student.append(line.strip().split())
+    f.close()    
+    return list_student
+
+
+list_students = open_and_read('journal.txt')
+
+
+def make_dict_students(list_student):
+    dict_students = {}
+    for student in list_student:
+        for _ in range(len(student)):
+            print(student[0])
+            dict_students[student[0] + ' ' + student[1]] = int(student[2])
+    print(dict_students)
+    return dict_students
+
+
+dict_students = make_dict_students(list_students)
+
+
+def change_register(dict_students):
+    changed_dict ={}
+    new_key =''
+    for key, value in dict_students.items():
+        if value > 4:
+            new_key = key.upper()
+            changed_dict[new_key] = value
+        else:
+            changed_dict[key] = value    
+    return changed_dict
+
+changed_dict = change_register(dict_students)    
+
+def write_result(dict, name):
+    f = open(name, 'w', encoding='utf-8')
+    for item in dict.items():
+        f.write(f'{item[0]} {item[1]}\n')
+    f.close()
+
+write_result(changed_dict, 'changed_journal.txt')
+print(open_and_read('journal.txt'))
+make_dict_students(list_students)
+print(change_register(dict_students))
+
+-----------------------------------------
+
+4.# ифр Цезаря - это способ шифрования, где каждая буква смещается на определенное количество символов влево или вправо. При расшифровке происходит обратная операция. 
+# К примеру, слово "абба" можно зашифровать "бввб" - сдвиг на 1 вправо. "вггв" - сдвиг на 2 вправо, "юяяю" - сдвиг на 2 влево.
+# Сдвиг часто называют ключом шифрования.
+#Ваша задача - написать функцию, которая записывает в файл шифрованный текст, а также функцию, которая спрашивает ключ, считывает текст и дешифровывает его.
+
+shift = -2
+letter = 'привет'
+filename = 'encoded.txt'
+
+
+def encode_letter(letter, shift):
+    dictionary = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
+    encoded = ''
+    for pos in range(len(letter)):
+        index = dictionary.index(letter[pos])
+        index = index + shift + len(dictionary) % len(dictionary)
+        encoded += dictionary[index]
+    return encoded
+
+
+def write_string_in_file(word_name, filename):
+    file = open(filename, 'w', encoding='utf-8')
+    file.write(word_name)
+    file.close()
+
+
+def read_string_from_file():
+    file = open('encoded.txt', 'r', encoding='utf-8')
+    encode = file.readline()
+    file.close()
+    return encode
+
+
+def decode_letter(shift):
+    answer = input('Введите ключ: ')
+    right_key = '1234'
+    encode = read_string_from_file()
+
+    decoded = encode_letter(encode, -shift)
+
+    if answer == right_key:
+        print(f'Зашифрованный текст: {encode}, расшифрованный: {decoded}')
+    else:
+        print('Пароль неверный')
+
+
+encoded = encode_letter(letter, shift)
+write_string_in_file(encoded, filename)
+decode_letter(shift)
+
+-----------------------------------------
+
+5.# Реализуйте RLE алгоритм: реализуйте модуль сжатия и восстановления данных. Входные и выходные данные хранятся в отдельных текстовых файлах.
+# файл первый:
+# AAAAAAAAAAAABBBBBBBBBBBCCCCCCCCCCDDDDDDEEEEEFFFFG python is sooooooo coooooool
+# файл второй:
+# сжатый текст.
+
+
+from check import write_string_in_file
+
+data = 'AAAAAAAAAAAABBBBBBBBBBBCCCCCCCCCCDDDDDDEEEEEFFFFG python is sooooooo coooooool'
+filename = 'uncompressed.txt'
+filename2 = 'compressedfile.txt'
+
+write_string_in_file(data, filename)
+
+def encode(data):
+    encoding = ""
+    i = 0
+    while i < len(data):
+        count = 1
+        while i + 1 < len(data) and data[i] == data[i + 1]:
+            count = count + 1
+            i = i + 1
+        encoding += str(count) + data[i]
+        i = i + 1
+    return encoding
+
+write_string_in_file(data, filename)
+compressed = encode(data)
+write_string_in_file(compressed, filename2)
+
